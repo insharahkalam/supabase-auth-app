@@ -236,8 +236,7 @@ async function displayUserProfile() {
           "https://www.gravatar.com/avatar/?d=mp";
         document.getElementById("profile-name").textContent =
           user.user_metadata?.full_name ||
-          //  user.user_metadata?.given_name;
-          user.user_metadata?.name;
+           user.user_metadata?.given_name;
         document.getElementById("profile-email").textContent = user.email;
       }
 
