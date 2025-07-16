@@ -233,7 +233,6 @@ async function displayUserProfile() {
 
 // Check for returning Google OAuth redirect
 
-
 // document.addEventListener("DOMContentLoaded", async () => {
 //   const success = localStorage.getItem("googleLoginSuccess");
 //   if (success === "true") {
@@ -278,7 +277,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ✅ Listen for Google OAuth redirect and wait for session
   if (window.location.hash.includes("access_token")) {
     // Optional: clean up URL hash
-    // history.replaceState(null, null, window.location.pathname);
+    history.replaceState(null, null, window.location.pathname);
 
     // Wait until user is signed in
     client.auth.onAuthStateChange((event, session) => {
