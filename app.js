@@ -144,6 +144,32 @@ loginWithGoogle &&
     }
   });
 
+// signup/login with linked in
+
+const loginWithLinkedIn = document.getElementById("loginWithLinkedIn");
+
+loginWithLinkedIn &&
+  loginWithLinkedIn.addEventListener("click", async () => {
+    try {
+      localStorage.setItem("linkedinLoginSuccess", "true");
+
+      const { data, error } = await client.auth.signInWithOAuth({
+        provider: "linkedin_oidc",
+        options: {
+          redirectTo: "https://insharahkalam.github.io/supabase-auth-app/post.html",
+           queryParams: { access_type: "offline", prompt: "consent" },
+        },
+      });
+
+      if (error) throw error;
+      console.log(data);
+    } catch (error) {
+      console.error("LinkedIn login error: ", error);
+      alert(error.message || "LinkedIn login failed");
+    }
+  });
+
+
 //   toggle eye icon signup
 
 const togglePassword = document.getElementById("togglePassword");
@@ -202,14 +228,17 @@ async function displayUserProfile() {
     if (error) throw error;
 
     if (user) {
+            console.log("User Metadata:", user);
       if (document.getElementById("profile-avatar")) {
         document.getElementById("profile-avatar").src =
           user.user_metadata?.avatar_url ||
+          user.user_metadata?.picture ||
           "https://www.gravatar.com/avatar/?d=mp";
         document.getElementById("profile-name").textContent =
           user.user_metadata?.full_name || user.email;
         document.getElementById("profile-email").textContent = user.email;
       }
+
       if (window.location.pathname.includes("index.html")) {
         window.location.href = "post.html";
       }
@@ -230,10 +259,61 @@ async function displayUserProfile() {
   }
 }
 
+// async function displayUserProfile() {
+//   try {
+//     const {
+//       data: { user },
+//       error,
+//     } = await client.auth.getUser();
+//     if (error) throw error;
+
+//     if (user) {
+//       console.log("User Metadata:", user.user_metadata); // helpful for debugging
+
+//       const name =
+//         user.user_metadata?.full_name ||
+//         user.user_metadata?.name ||
+//         (user.user_metadata?.given_name && user.user_metadata?.family_name
+//           ? `${user.user_metadata.given_name} ${user.user_metadata.family_name}`
+//           : user.email);
+
+//       const avatar =
+//         user.user_metadata?.avatar_url ||
+//         user.user_metadata?.picture ||
+//         "https://www.gravatar.com/avatar/?d=mp";
+
+//       if (document.getElementById("profile-avatar")) {
+//         document.getElementById("profile-avatar").src = avatar;
+//         document.getElementById("profile-name").textContent = name;
+//         document.getElementById("profile-email").textContent = user.email;
+//       }
+
+//       if (window.location.pathname.includes("index.html")) {
+//         window.location.href = "post.html";
+//       }
+//     } else if (
+//       !window.location.pathname.includes("index.html") &&
+//       !window.location.pathname.includes("login.html")
+//     ) {
+//       window.location.href = "index.html";
+//     }
+//   } catch (error) {
+//     console.error("Error:", error);
+//     if (
+//       !window.location.pathname.includes("index.html") &&
+//       !window.location.pathname.includes("login.html")
+//     ) {
+//       window.location.href = "index.html";
+//     }
+//   }
+// }
+
+
 // Check for returning Google OAuth redirect
 
 document.addEventListener("DOMContentLoaded", async () => {
   const success = localStorage.getItem("googleLoginSuccess");
+  const successLinkedIn = localStorage.getItem("linkedinLoginSuccess");
 
   if (success === "true") {
     Swal.fire({
@@ -243,16 +323,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     localStorage.removeItem("googleLoginSuccess");
   }
 
+    // Check if user logged in with LinkedIn
+  if (successLinkedIn === "true") {
+    Swal.fire({
+      title: "Successfully logged in with LinkedIn!",
+      icon: "success",
+    });
+    localStorage.removeItem("linkedinLoginSuccess");
+  }
+
   const {
     data: { session },
   } = await client.auth.getSession();
 
-  // ✅ If on post.html and not logged in → redirect to login
+  //  If on post.html and not logged in → redirect to login
   if (window.location.pathname.includes("post.html") && !session) {
     window.location.href = "login.html";
   }
 
-  // ✅ If logged in → show profile
+  //  If logged in → show profile
   if (session) {
     displayUserProfile();
   }
