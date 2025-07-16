@@ -131,7 +131,7 @@ loginWithGoogle &&
       const { data, error } = await client.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: "https://insharahkalam.github.io/login-signupWithAuthentication/post.html",
+          redirectTo: "https://insharahkalam.github.io/supabase-auth-app/post.html",
           queryParams: { access_type: "offline", prompt: "consent" },
         },
 
