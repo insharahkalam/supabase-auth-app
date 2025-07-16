@@ -260,56 +260,6 @@ async function displayUserProfile() {
   }
 }
 
-// async function displayUserProfile() {
-//   try {
-//     const {
-//       data: { user },
-//       error,
-//     } = await client.auth.getUser();
-//     if (error) throw error;
-
-//     if (user) {
-//       console.log("User Metadata:", user.user_metadata); // helpful for debugging
-
-//       const name =
-//         user.user_metadata?.full_name ||
-//         user.user_metadata?.name ||
-//         (user.user_metadata?.given_name && user.user_metadata?.family_name
-//           ? `${user.user_metadata.given_name} ${user.user_metadata.family_name}`
-//           : user.email);
-
-//       const avatar =
-//         user.user_metadata?.avatar_url ||
-//         user.user_metadata?.picture ||
-//         "https://www.gravatar.com/avatar/?d=mp";
-
-//       if (document.getElementById("profile-avatar")) {
-//         document.getElementById("profile-avatar").src = avatar;
-//         document.getElementById("profile-name").textContent = name;
-//         document.getElementById("profile-email").textContent = user.email;
-//       }
-
-//       if (window.location.pathname.includes("index.html")) {
-//         window.location.href = "post.html";
-//       }
-//     } else if (
-//       !window.location.pathname.includes("index.html") &&
-//       !window.location.pathname.includes("login.html")
-//     ) {
-//       window.location.href = "index.html";
-//     }
-//   } catch (error) {
-//     console.error("Error:", error);
-//     if (
-//       !window.location.pathname.includes("index.html") &&
-//       !window.location.pathname.includes("login.html")
-//     ) {
-//       window.location.href = "index.html";
-//     }
-//   }
-// }
-
-
 // Check for returning Google OAuth redirect
 
 document.addEventListener("DOMContentLoaded", async () => {
