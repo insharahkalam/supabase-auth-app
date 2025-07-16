@@ -131,11 +131,10 @@ loginWithGoogle &&
       const { data, error } = await client.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: "https://insharahkalam.github.io/supabase-auth-app/post.html",
+          redirectTo:
+            "https://insharahkalam.github.io/supabase-auth-app/post.html",
           queryParams: { access_type: "offline", prompt: "consent" },
         },
-
-
       });
       if (error) throw error;
       console.log(data);
@@ -233,73 +232,6 @@ async function displayUserProfile() {
 
 // Check for returning Google OAuth redirect
 
-// document.addEventListener("DOMContentLoaded", async () => {
-//   const success = localStorage.getItem("googleLoginSuccess");
-//   if (success === "true") {
-//     Swal.fire({
-//       title: "Successfully logged in with Google!",
-//       icon: "success",
-//       draggable: true,
-//     });
-//     localStorage.removeItem("googleLoginSuccess");
-//   }
-//   if (window.location.hash.includes("access_token")) {
-//     const {
-//       data: { session },
-//     } = await client.auth.getSession();
-//     if (session) {
-//       setInterval(() => {
-//         window.location.href = "post.html";
-//       }, 1500);
-//     }
-//   }
-//   if (
-//     !window.location.pathname.includes("index.html") &&
-//     !window.location.pathname.includes("login.html")
-//   ) {
-//     displayUserProfile();
-//   }
-// });
-
-
-// document.addEventListener("DOMContentLoaded", async () => {
-//   // Show success alert if coming from Google login
-//   const success = localStorage.getItem("googleLoginSuccess");
-//   if (success === "true") {
-//     Swal.fire({
-//       title: "Successfully logged in with Google!",
-//       icon: "success",
-//       draggable: true,
-//     });
-//     localStorage.removeItem("googleLoginSuccess");
-//   }
-
-//   // ✅ Listen for Google OAuth redirect and wait for session
-//   if (window.location.hash.includes("access_token")) {
-//     // Optional: clean up URL hash
-//     history.replaceState(null, null, window.location.pathname);
-
-//     // Wait until user is signed in
-//     client.auth.onAuthStateChange((event, session) => {
-//       if (event === "SIGNED_IN" && session) {
-//         console.log("User signed in via Google redirect!");
-//         window.location.href = "post.html";
-//       }
-//     });
-//   }
-
-//   // ✅ Only run profile display logic on non-login pages
-//   if (
-//     !window.location.pathname.includes("index.html") &&
-//     !window.location.pathname.includes("login.html")
-//   ) {
-//     displayUserProfile(); // your function to show logged-in user data
-//   }
-// });
-
-
-
-
 document.addEventListener("DOMContentLoaded", async () => {
   const success = localStorage.getItem("googleLoginSuccess");
 
@@ -311,7 +243,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     localStorage.removeItem("googleLoginSuccess");
   }
 
-  const { data: { session } } = await client.auth.getSession();
+  const {
+    data: { session },
+  } = await client.auth.getSession();
 
   // ✅ If on post.html and not logged in → redirect to login
   if (window.location.pathname.includes("post.html") && !session) {
@@ -320,38 +254,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // ✅ If logged in → show profile
   if (session) {
-    displayUserProfile(); // your function
+    displayUserProfile();
   }
 });
 
-
-
-
-
-
-
 // add post functionality
 
-const submitPost = document.getElementById("submitPost")
-submitPost&&submitPost.addEventListener("click",async()=>{
-  const {data:{user} } = await client.auth.getUser();
-  const postTitle = document.getElementById("post-title").value;
-  const postdescrib = document.getElementById("postdescrib").value;
-  console.log(typeof user.id);
-  
-  const { data , error } = await client.from("users").insert([
-{user_id: user.id,
-      Title: postTitle,
-      Description: postdescrib,
-      }]).select();
+const submitPost = document.getElementById("submitPost");
+submitPost &&
+  submitPost.addEventListener("click", async () => {
+    const {
+      data: { user },
+    } = await client.auth.getUser();
+    const postTitle = document.getElementById("post-title").value;
+    const postdescrib = document.getElementById("postdescrib").value;
+    console.log(typeof user.id);
 
-  if(data){
-    alert("Your post is added successfully.")
-    console.log(data);
-    
-  }
-  else{
-    console.log(error);
-    
-  }
-})
+    const { data, error } = await client
+      .from("users")
+      .insert([
+        { user_id: user.id, Title: postTitle, Description: postdescrib },
+      ])
+      .select();
+
+    if (data) {
+      alert("Your post is added successfully.");
+      console.log(data);
+    } else {
+      console.log(error);
+    }
+  });
