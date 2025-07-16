@@ -262,40 +262,72 @@ async function displayUserProfile() {
 // });
 
 
+// document.addEventListener("DOMContentLoaded", async () => {
+//   // Show success alert if coming from Google login
+//   const success = localStorage.getItem("googleLoginSuccess");
+//   if (success === "true") {
+//     Swal.fire({
+//       title: "Successfully logged in with Google!",
+//       icon: "success",
+//       draggable: true,
+//     });
+//     localStorage.removeItem("googleLoginSuccess");
+//   }
+
+//   // ✅ Listen for Google OAuth redirect and wait for session
+//   if (window.location.hash.includes("access_token")) {
+//     // Optional: clean up URL hash
+//     history.replaceState(null, null, window.location.pathname);
+
+//     // Wait until user is signed in
+//     client.auth.onAuthStateChange((event, session) => {
+//       if (event === "SIGNED_IN" && session) {
+//         console.log("User signed in via Google redirect!");
+//         window.location.href = "post.html";
+//       }
+//     });
+//   }
+
+//   // ✅ Only run profile display logic on non-login pages
+//   if (
+//     !window.location.pathname.includes("index.html") &&
+//     !window.location.pathname.includes("login.html")
+//   ) {
+//     displayUserProfile(); // your function to show logged-in user data
+//   }
+// });
+
+
+
+
 document.addEventListener("DOMContentLoaded", async () => {
-  // Show success alert if coming from Google login
   const success = localStorage.getItem("googleLoginSuccess");
+
   if (success === "true") {
     Swal.fire({
       title: "Successfully logged in with Google!",
       icon: "success",
-      draggable: true,
     });
     localStorage.removeItem("googleLoginSuccess");
   }
 
-  // ✅ Listen for Google OAuth redirect and wait for session
-  if (window.location.hash.includes("access_token")) {
-    // Optional: clean up URL hash
-    history.replaceState(null, null, window.location.pathname);
+  const { data: { session } } = await client.auth.getSession();
 
-    // Wait until user is signed in
-    client.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" && session) {
-        console.log("User signed in via Google redirect!");
-        window.location.href = "post.html";
-      }
-    });
+  // ✅ If on post.html and not logged in → redirect to login
+  if (window.location.pathname.includes("post.html") && !session) {
+    window.location.href = "login.html";
   }
 
-  // ✅ Only run profile display logic on non-login pages
-  if (
-    !window.location.pathname.includes("index.html") &&
-    !window.location.pathname.includes("login.html")
-  ) {
-    displayUserProfile(); // your function to show logged-in user data
+  // ✅ If logged in → show profile
+  if (session) {
+    displayUserProfile(); // your function
   }
 });
+
+
+
+
+
 
 
 // add post functionality
