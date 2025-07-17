@@ -156,8 +156,9 @@ loginWithLinkedIn &&
       const { data, error } = await client.auth.signInWithOAuth({
         provider: "linkedin_oidc",
         options: {
-          redirectTo: "https://insharahkalam.github.io/supabase-auth-app/post.html",
-           queryParams: { access_type: "offline", prompt: "consent" },
+          redirectTo:
+            "https://insharahkalam.github.io/supabase-auth-app/post.html",
+          queryParams: { access_type: "offline", prompt: "consent" },
         },
       });
 
@@ -168,6 +169,33 @@ loginWithLinkedIn &&
       alert(error.message || "LinkedIn login failed");
     }
   });
+
+// signup/login with facebook
+
+const loginWithGithub = document.getElementById("loginWithGithub");
+
+loginWithGithub &&
+  loginWithGithub.addEventListener("click", async () => {
+    try {
+      localStorage.setItem("GithubLoginSuccess", "true");
+
+      const { data, error } = await client.auth.signInWithOAuth({
+           provider: 'github',
+        options: {
+          redirectTo:
+            "https://insharahkalam.github.io/supabase-auth-app/post.html",
+          queryParams: { access_type: "offline", prompt: "consent" },
+        },
+      });
+
+      if (error) throw error;
+      console.log(data);
+    } catch (error) {
+      console.error("github login error: ", error);
+      alert(error.message || "Github login failed");
+    }
+  });
+
 
 
 //   toggle eye icon signup
@@ -228,15 +256,14 @@ async function displayUserProfile() {
     if (error) throw error;
 
     if (user) {
-            console.log("User Metadata:", user);
+      console.log("User Metadata:", user);
       if (document.getElementById("profile-avatar")) {
         document.getElementById("profile-avatar").src =
           user.user_metadata?.avatar_url ||
           user.user_metadata?.picture ||
           "https://www.gravatar.com/avatar/?d=mp";
         document.getElementById("profile-name").textContent =
-          user.user_metadata?.full_name ||
-           user.user_metadata?.given_name;
+          user.user_metadata?.full_name || user.user_metadata?.given_name;
         document.getElementById("profile-email").textContent = user.email;
       }
 
@@ -265,6 +292,7 @@ async function displayUserProfile() {
 document.addEventListener("DOMContentLoaded", async () => {
   const success = localStorage.getItem("googleLoginSuccess");
   const successLinkedIn = localStorage.getItem("linkedinLoginSuccess");
+  const successGithub = localStorage.getItem("GithubLoginSuccess");
 
   if (success === "true") {
     Swal.fire({
@@ -274,13 +302,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     localStorage.removeItem("googleLoginSuccess");
   }
 
-    // Check if user logged in with LinkedIn
+  // Check if user logged in with LinkedIn
   if (successLinkedIn === "true") {
     Swal.fire({
       title: "Successfully logged in with LinkedIn!",
       icon: "success",
     });
     localStorage.removeItem("linkedinLoginSuccess");
+  }
+
+  // Check if user logged in with github
+  if (successGithub === "true") {
+    Swal.fire({
+      title: "Successfully logged in with github!",
+      icon: "success",
+    });
+    localStorage.removeItem("GithubLoginSuccess");
   }
 
   const {
