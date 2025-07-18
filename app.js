@@ -423,27 +423,27 @@ Swal.fire({
 
   // read all post 
 
-  if(window.location.pathname="/all-blogs.html"){
-    const current = document.getElementById("current");
-current.style.textDecoration="underline red";
+//   if(window.location.pathname="/all-blogs.html"){
+//     const current = document.getElementById("current");
+// current.style.textDecoration="underline red";
 
 
-try{
+// try{
   
-const readAllPosts = async () => {
-			const { data, error } = await client
-				.from('posts')
-				.select()
-			if (data) {
-				const box = document.getElementById("container")
-				console.log(box)
+// const readAllPosts = async () => {
+// 			const { data, error } = await client
+// 				.from('posts')
+// 				.select()
+// 			if (data) {
+// 				const box = document.getElementById("container")
+// 				console.log(box)
 
 
-}
-}
+// }
+// }
 
-}
-  catch(error){
+// }
+//   catch(error){
 
-  }
-}
+//   }
+// }
