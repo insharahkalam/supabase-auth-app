@@ -385,65 +385,58 @@ submitPost &&
         ])
         .select();
 
-if(error){
-  console.error(error);
-  Swal.fire({
-					icon: 'error',
-					title: 'Post Failed',
-					text: 'There was a problem creating the post.',
-					confirmButtonColor: '#125b9a',
-				});
-			} else {
-				Swal.fire({
-					icon: 'success',
-					title: 'Post Created',
-					text: 'Your post has been successfully created!',
-					timer: 1500,
-					showConfirmButton: false,
-				});
-  
-        document.getElementById("post-title").value="";
-        document.getElementById("postdescrib").value="";
-      }
+      if (error) {
+        console.error(error);
+        Swal.fire({
+          icon: "error",
+          title: "Post Failed",
+          text: "There was a problem creating the post.",
+          confirmButtonColor: "#125b9a",
+        });
+      } else {
+        Swal.fire({
+          icon: "success",
+          title: "Post Created",
+          text: "Your post has been successfully created!",
+          timer: 1500,
+          showConfirmButton: false,
+        });
 
+        document.getElementById("post-title").value = "";
+        document.getElementById("postdescrib").value = "";
+      }
     } catch (error) {
-console.log(error);
-Swal.fire({
-				icon: 'error',
-				title: 'Unexpected Error',
-				text: 'Something went wrong. Please try again.',
-				confirmButtonColor: '#125b9a',
-			});
-    }
-    finally{
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Unexpected Error",
+        text: "Something went wrong. Please try again.",
+        confirmButtonColor: "#125b9a",
+      });
+    } finally {
       hideLoader();
-      submitPost.disable="false";
+      submitPost.disable = "false";
     }
   });
 
-  // read all post 
+// read all post
 
-//   if(window.location.pathname="/all-blogs.html"){
-//     const current = document.getElementById("current");
-// current.style.textDecoration="underline red";
+if (window.location.pathname == "/all-blogs.html") {
+  const current = document.getElementById("current");
+  current.style.textDecoration = "underline red";
 
+  try {
+    const readAllPosts = async () => {
+      const { data, error } = await client.from("posts").select();
+      if (data) {
+        const box = document.getElementById("container");
+        console.log(box);
+      }
+    };
+  } catch (error) {}
+}
 
-// try{
-  
-// const readAllPosts = async () => {
-// 			const { data, error } = await client
-// 				.from('posts')
-// 				.select()
-// 			if (data) {
-// 				const box = document.getElementById("container")
-// 				console.log(box)
-
-
-// }
-// }
-
-// }
-//   catch(error){
-
-//   }
-// }
+if (window.location.pathname == "/my-blogs.html") {
+  const active = document.getElementById("active");
+  active.style.textDecoration = "underline red";
+}
