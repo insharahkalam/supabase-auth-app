@@ -423,7 +423,7 @@ submitPost &&
 
 if (window.location.pathname == "/all-blogs.html") {
   const current = document.getElementById("current");
-  current.style.textDecoration = "underline red";
+  current.style.color= "red";
 
   // try {
   //   const readAllPosts = async () => {
@@ -438,5 +438,5 @@ if (window.location.pathname == "/all-blogs.html") {
 
 if (window.location.pathname == "/my-blogs.html") {
   const active = document.getElementById("active");
-  active.style.textDecoration = "underline red";
+  active.style.color = "red";
 }
