@@ -582,7 +582,7 @@ async function updatePost(postId, posttitle, postdescribtion) {
       showLoader();
       const [updatedTitle, updatedDescription] = formValues;
       const { error } = await client
-        .from("posts")
+        .from("users")
         .update({ Title: updatedTitle, Description: updatedDescription })
         .eq("id", postId);
       if (error) {
