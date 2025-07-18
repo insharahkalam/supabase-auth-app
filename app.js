@@ -170,7 +170,7 @@ loginWithLinkedIn &&
     }
   });
 
-// signup/login with facebook
+// signup/login with github
 
 const loginWithGithub = document.getElementById("loginWithGithub");
 
@@ -180,7 +180,7 @@ loginWithGithub &&
       localStorage.setItem("GithubLoginSuccess", "true");
 
       const { data, error } = await client.auth.signInWithOAuth({
-           provider: 'github',
+        provider: "github",
         options: {
           redirectTo:
             "https://insharahkalam.github.io/supabase-auth-app/post.html",
@@ -195,8 +195,6 @@ loginWithGithub &&
       alert(error.message || "Github login failed");
     }
   });
-
-
 
 //   toggle eye icon signup
 
@@ -338,26 +336,91 @@ document.addEventListener("DOMContentLoaded", async () => {
 // add post functionality
 
 const submitPost = document.getElementById("submitPost");
+const loaderOverlay = document.getElementById("loader-overlay");
+
+function showLoader() {
+  loaderOverlay.style.display = "flex";
+}
+
+function hideLoader() {
+  loaderOverlay.style.display = "none";
+}
+
 submitPost &&
   submitPost.addEventListener("click", async () => {
     const {
       data: { user },
     } = await client.auth.getUser();
-    const postTitle = document.getElementById("post-title").value;
-    const postdescrib = document.getElementById("postdescrib").value;
-    console.log(typeof user.id);
+    const postTitle = document.getElementById("post-title").value.trim();
+    const postdescrib = document.getElementById("postdescrib").value.trim();
 
-    const { data, error } = await client
-      .from("users")
-      .insert([
-        { user_id: user.id, Title: postTitle, Description: postdescrib },
-      ])
-      .select();
+    if (!postTitle || !postdescrib) {
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Fields",
+        text: "Please enter both a title and a description.",
+        confirmButtonColor: "#125b9a",
+      });
+      return;
+    }
 
-    if (data) {
-      alert("Your post is added successfully.");
-      console.log(data);
-    } else {
-      console.log(error);
+    showLoader();
+    submitPost.disable = true;
+
+    try {
+      const {
+        data: { user },
+        error: authError,
+      } = await client.auth.getUser();
+      if (authError || !user) throw authError || new Error("user not found.");
+
+      const { data, error } = await client
+        .from("users")
+        .insert([
+          {
+            user_id: user.id,
+            Title: postTitle,
+            Description: postdescrib,
+          },
+        ])
+        .select();
+
+if(error){
+  console.error(error);
+  Swal.fire({
+					icon: 'error',
+					title: 'Post Failed',
+					text: 'There was a problem creating the post.',
+					confirmButtonColor: '#125b9a',
+				});
+			} else {
+				Swal.fire({
+					icon: 'success',
+					title: 'Post Created',
+					text: 'Your post has been successfully created!',
+					timer: 1500,
+					showConfirmButton: false,
+				});
+  
+        document.getElementById("post-title").value="";
+        document.getElementById("postdescrib").value="";
+      }
+
+    } catch (error) {
+console.log(error);
+Swal.fire({
+				icon: 'error',
+				title: 'Unexpected Error',
+				text: 'Something went wrong. Please try again.',
+				confirmButtonColor: '#125b9a',
+			});
+    }
+    finally{
+      hideLoader();
+      submitPost.disable="false";
     }
   });
+
+  // read all post 
+
+  

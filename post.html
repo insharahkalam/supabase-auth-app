@@ -27,6 +27,22 @@
     <nav class="navbar navbar-expand-lg bg-black">
       <div class="container navbar-container">
         <a class="navbar-brand text-white fs-2" href="#">My Post</a>
+        <!-- Toggle button for mobile -->
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+        <!--  navbaar links -->
+<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a class="nav-link text-white fontStyle" href="all-blogs.html">All Blogs</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white fontStyle" href="my-blogs.html">My Blog</a>
+						</li>
+					</ul>
+<!-- profile section -->
+
         <div class="profile-section">
           <div class="user-profile">
             <img
@@ -84,9 +100,15 @@
         <!-- showing post -->
         <div class="col-12 col-sm-12 col-md-6" id="posts"></div>
       </div>
+      
     </div>
-
 	
+
+    <div id="loader-overlay">
+			<div class="spinner-border text-primary loader-spinner" role="status">
+				<span class="visually-hidden">Loading...</span>
+			</div>
+		</div>
 
     <!-- supabase script -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
