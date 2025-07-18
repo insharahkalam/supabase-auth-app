@@ -426,4 +426,24 @@ Swal.fire({
   if(window.location.pathname="/all-blogs.html"){
     const current = document.getElementById("current");
 current.style.textDecoration="underline red";
+
+
+try{
+  
+const readAllPosts = async () => {
+			const { data, error } = await client
+				.from('posts')
+				.select()
+			if (data) {
+				const box = document.getElementById("container")
+				console.log(box)
+
+
+}
+}
+
+}
+  catch(error){
+
   }
+}
