@@ -421,9 +421,11 @@ submitPost &&
 
 // read all post
 
-if (window.location.pathname == "/all-blogs.html") {
+if (window.location.pathname.includes("all-blogs.html")) {
   const current = document.getElementById("current");
-  current.style.color = "red";
+  if(current){
+    current.style.color = "red";
+  }
 
   try {
     const readAllPosts = async () => {
@@ -486,9 +488,11 @@ const readMyPosts = async () => {
   }
 };
 
-if (window.location.pathname == "/my-blogs.html") {
+if (window.location.pathname.includes("my-blogs.html")) {
   const active = document.getElementById("active");
-  active.style.color = "red";
+  if(active){
+    active.style.color = "red";
+  }
 
   try {
     readMyPosts();
@@ -560,9 +564,9 @@ async function updatePost(postId, posttitle, postdescribtion) {
     title: "Update post",
     html: `
     <label > post title
-	<input id="swal-input1" class="swal1-input"  value = '${postTitle}' ></label>
+	<input id="swal-input1" class="swal1-input"  value = '${posttitle}' ></label>
     <label > post description
-	<input id="swal-input2" class="swal2-input" style="margin: 0 !important;"   value = '${postDescription}' ></label>
+	<input id="swal-input2" class="swal2-input" style="margin: 0 !important;"   value = '${postdescribtion}' ></label>
   `,
     focusConfirm: false,
     preConfirm: () => {
