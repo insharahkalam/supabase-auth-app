@@ -423,20 +423,179 @@ submitPost &&
 
 if (window.location.pathname == "/all-blogs.html") {
   const current = document.getElementById("current");
-  current.style.color= "red";
+  current.style.color = "red";
 
-  // try {
-  //   const readAllPosts = async () => {
-  //     const { data, error } = await client.from("posts").select();
-  //     if (data) {
-  //       const box = document.getElementById("container");
-  //       console.log(box);
-  //     }
-  //   };
-  // } catch (error) {}
+  try {
+    const readAllPosts = async () => {
+      const { data, error } = await client.from("users").select();
+      if (data) {
+        const box = document.getElementById("container");
+        console.log(box);
+        box.innerHTML = data
+          .map(
+            ({ id, Title, Description }) => `
+        <div id='${id}' class="card bg-dark border-2 text-white border-danger" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">${Title}</h5>
+   
+    <p class="card-text">${Description}</p>
+    
+  </div>
+</div>`
+          )
+          .join();
+      } else {
+        console.log(error);
+      }
+    };
+    readAllPosts();
+  } catch (error) {
+    console.log(error);
+  }
 }
+
+// Read my posts
+
+const readMyPosts = async () => {
+  const {
+    data: { user },
+  } = await client.from("users").select().eq("user_id", user.id);
+  if (data) {
+    const box = document.getElementById("container");
+    console.log(box);
+    box.innerHTML = data
+      .map(
+        ({ id, Title, Description }) => `
+        <div id='${id}' class="card bg-dark border-2 text-white border-danger" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">${Title}</h5>
+   
+    <p class="card-text">${Description}</p>
+  </div>
+
+  <div class="d-flex justify-content-between">
+  <button type="button" onclick="updatePost('${id}','${Title}','${Description}')" class="btn px-3 btn-outline-danger">Edit</button>
+  <button type="button" onclick="deletePost('${id}')" class="btn px-3 btn-outline-danger">Delete</button>
+  </div>
+
+</div>`
+      )
+      .join("");
+  } else {
+    console.log(error);
+  }
+};
 
 if (window.location.pathname == "/my-blogs.html") {
   const active = document.getElementById("active");
   active.style.color = "red";
+
+  try {
+    readMyPosts();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// delete post
+
+async function deletePost(postId) {
+  const swalWithBootstrapButtons = swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
+    },
+    buttonsStyling: false,
+  });
+  swalWithBootstrapButtons
+    .fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    })
+    .then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          showLoader();
+          const response = await client.from("posts").delete().eq("id", postId);
+          if (response) {
+            hideLoader();
+            alert("post has been deleted");
+            console.log(response);
+            readMyPosts();
+          } else {
+            console.log(error);
+          }
+        } catch (error) {
+          console.log(error);
+        } finally {
+          hideLoader();
+        }
+        swalWithBootstrapButtons.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire({
+          title: "Cancelled",
+          text: "Your imaginary file is safe :)",
+          icon: "error",
+        });
+      }
+    });
+}
+
+// update post
+
+async function updatePost(postId, posttitle, postdescribtion) {
+  const { value: formValues } = await Swal.fire({
+    title: "Update post",
+    html: `
+    <label > post title
+	<input id="swal-input1" class="swal1-input"  value = '${postTitle}' ></label>
+    <label > post description
+	<input id="swal-input2" class="swal2-input" style="margin: 0 !important;"   value = '${postDescription}' ></label>
+  `,
+    focusConfirm: false,
+    preConfirm: () => {
+      return [
+        document.getElementById("swal-input1").value,
+        document.getElementById("swal-input2").value,
+      ];
+    },
+  });
+
+  try {
+    if (formValues) {
+      showLoader();
+      const [updatedTitle, updatedDescription] = formValues;
+      const { error } = await client
+        .from("posts")
+        .update({ Title: updatedTitle, Description: updatedDescription })
+        .eq("id", postId);
+      if (error) {
+        console.log(error);
+      } else {
+        hideLoader();
+        Swal.fire({
+          icon: "success",
+          title: "your post has been updated",
+          confirmButtonColor: "#125b9a",
+        });
+        readMyPosts();
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    hideLoader();
+  }
 }

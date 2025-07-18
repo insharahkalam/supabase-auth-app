@@ -20,7 +20,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css"
     />
-    <title>Document</title>
+    <title>All Blogs</title>
 </head>
 <body>
     
@@ -32,7 +32,7 @@
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-        <!--  navbaar links -->
+        <!--  navbar links -->
 <div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 						<li class="nav-item">
@@ -61,6 +61,18 @@
         </div>
       </div>
     </nav>
+
+<!-- All blogs  -->
+
+<div class="container d-flex gap-4 m-5 flex-wrap" id="container"></div>
+
+<!-- loader -->
+
+ <div id="loader-overlay">
+        <div class="spinner-border text-primary loader-spinner" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
 
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="app.js"></script>
