@@ -423,4 +423,7 @@ Swal.fire({
 
   // read all post 
 
-  
+  if(window.location.pathname="/all-blogs.html"){
+    const current = document.getElementById("current");
+current.style.textDecoration="underline red";
+  }
