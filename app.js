@@ -457,36 +457,52 @@ if (window.location.pathname.includes("all-blogs.html")) {
 }
 
 // Read my posts
+// ✅ FIXED readMyPosts FUNCTION ONLY
 
 const readMyPosts = async () => {
-  const {
-    data: { user },
-  } = await client.from("users").select().eq("user_id", user.id);
-  if (data) {
-    const box = document.getElementById("container");
-    console.log(box);
+  try {
+    const {
+      data: { user },
+      error: authError,
+    } = await client.auth.getUser();
+
+    if (authError || !user) throw authError || new Error("User not found");
+
+    const { data, error } = await client
+      .from("users")
+      .select()
+      .eq("user_id", user.id);
+
+    if (error) throw error;
+
+    const box = document.getElementById("container"); // updated to container
+    if (!box) return console.warn("Container not found");
+
     box.innerHTML = data
       .map(
         ({ id, Title, Description }) => `
-        <div id='${id}' class="card bg-dark border-2 text-white border-danger" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">${Title}</h5>
-   
-    <p class="card-text">${Description}</p>
-  </div>
-
-  <div class="d-flex justify-content-between">
-  <button type="button" onclick="updatePost('${id}','${Title}','${Description}')" class="btn px-3 btn-outline-danger">Edit</button>
-  <button type="button" onclick="deletePost('${id}')" class="btn px-3 btn-outline-danger">Delete</button>
-  </div>
-
-</div>`
+      <div id='${id}' class="card bg-dark border-2 text-white border-danger" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">${Title}</h5>
+          <p class="card-text">${Description}</p>
+        </div>
+        <div class="d-flex justify-content-between">
+          <button type="button" onclick="updatePost('${id}','${Title}','${Description}')" class="btn px-3 btn-outline-danger">Edit</button>
+          <button type="button" onclick="deletePost('${id}')" class="btn px-3 btn-outline-danger">Delete</button>
+        </div>
+      </div>`
       )
       .join("");
-  } else {
-    console.log(error);
+  } catch (error) {
+    console.error("readMyPosts error:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error loading posts",
+      text: error.message || "Something went wrong.",
+    });
   }
 };
+
 
 if (window.location.pathname.includes("my-blogs.html")) {
   const active = document.getElementById("active");
