@@ -421,7 +421,7 @@ submitPost &&
 
 // read all post
 
-if (window.location.pathname == "/all-blogs.html") {
+if (window.location.pathname.includes("all-blogs.html")) {
   try {
     const readAllPosts = async () => {
       const { data, error } = await client.from("users").select();
@@ -485,7 +485,7 @@ const readMyPosts = async () => {
   }
 };
 
-if (window.location.pathname == "/my-blogs.html") {
+if (window.location.pathname.includes('my-blogs.html')) {
   try {
     readMyPosts();
   } catch (error) {
