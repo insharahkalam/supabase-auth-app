@@ -472,7 +472,7 @@ const readMyPosts = async () => {
                 <h5 class="card-title">${Title}</h5>
                 <p class="card-text">${Description}</p>
               </div>
-              <div class="d-flex px-3 pb-2 justify-content-between">
+              <div class="d-flex gap-3 px-3 pb-2">
                 <button type="button" onclick="updatePost('${id}','${Title}','${Description}')" class="btn px-3 btn-outline-danger">Edit</button>
                 <button type="button" onclick="deletePost('${id}')" class="btn px-3 btn-outline-danger">Delete</button>
               </div>
