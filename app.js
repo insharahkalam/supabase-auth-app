@@ -470,7 +470,7 @@ const readMyPosts = async () => {
 
     if (error) throw error;
 
-    const box = document.getElementById("container"); // updated to container
+    const box = document.getElementById("container1"); // updated to container
     if (!box) return console.warn("Container not found");
 
     box.innerHTML = data
