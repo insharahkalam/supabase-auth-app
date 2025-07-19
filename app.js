@@ -528,10 +528,10 @@ async function deletePost(postId) {
       if (result.isConfirmed) {
         try {
           showLoader();
-          const response = await client.from("posts").delete().eq("id", postId);
+          const response = await client.from("users").delete().eq("id", postId);
           if (response) {
             hideLoader();
-            alert("post has been deleted");
+            // alert("post has been deleted");
             console.log(response);
             readMyPosts();
           } else {
