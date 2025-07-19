@@ -24,7 +24,7 @@
   </head>
   <body class="bgBackground">
     <!-- post navbar -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg z-3">
       <div class="container navbar-container">
         <a class="navbar-brand text-white fs-2" href="#">My Post</a>
         <!-- Toggle button for mobile -->
@@ -65,20 +65,20 @@
       <div class="row p-2 gap-4 justify-content-center">
         
         <div class="col-12 col-sm-12 col-md-4">
-          <div class="card p-4 border-green">
+          <div class="card p-4 borderColor">
             <form class="p-2">
               <div class="mb-3">
-                <label for="post-title" class="form-label fontStyle"
+                <label for="post-title" class="form-label text-white fontStyle"
                   >Title</label
                 >
-                <input type="text" class="form-control" id="post-title" />
+                <input type="text" class="form-control bg-transparent text-white" id="post-title" />
               </div>
-              <label for="postdescrib" class="form-label fontStyle"
+              <label for="postdescrib" class="form-label text-white fontStyle"
                 >Description</label
               >
               <div class="form-floating fontStyle">
                 <textarea
-                  class="form-control"
+                  class="form-control bg-transparent text-white"
                   placeholder="Leave a comment here"
                   id="postdescrib"
                   style="height: 100px"
@@ -87,7 +87,7 @@
 
               <button
                 type="button"
-                class="btn btn-primary mt-4 fontStyle color-blue"
+                class="btn bg-transparent mt-4 fontStyle"
                 id="submitPost"
               >
                 Add Post
