@@ -421,36 +421,37 @@ submitPost &&
 
 // read all post
 
-try {
-  const readAllPosts = async () => {
-    const { data, error } = await client.from("users").select();
-    if (data) {
-      const box = document.getElementById("container1");
-      console.log(box);
-      box.innerHTML = data
-        .map(
-          ({ id, Title, Description }) => `
-        <div id='${id}' class="card bg-dark border-2 text-white border-danger" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">${Title}</h5>
-   
-    <p class="card-text">${Description}</p>
-    
-  </div>
-</div>`
-        )
-        .join("");
-    } else {
-      console.log(error);
-    }
-  };
-  readAllPosts();
-} catch (error) {
-  console.log(error);
+if (window.location.pathname == "/all-blogs.html") {
+  try {
+    const readAllPosts = async () => {
+      const { data, error } = await client.from("users").select();
+      if (data) {
+        const box = document.getElementById("container1");
+        console.log(box);
+        box.innerHTML = data
+          .map(
+            ({ id, Title, Description }) => `
+          <div id='${id}' class="card bg-dark border-2 text-white border-danger" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">${Title}</h5>
+     
+      <p class="card-text">${Description}</p>
+      
+    </div>
+  </div>`
+          )
+          .join("");
+      } else {
+        console.log(error);
+      }
+    };
+    readAllPosts();
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // Read my posts
-// ✅ FIXED readMyPosts FUNCTION ONLY
 
 const readMyPosts = async () => {
   const {
@@ -484,10 +485,12 @@ const readMyPosts = async () => {
   }
 };
 
-try {
-  readMyPosts();
-} catch (error) {
-  console.log(error);
+if (window.location.pathname == "/my-blogs.html") {
+  try {
+    readMyPosts();
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // delete post
