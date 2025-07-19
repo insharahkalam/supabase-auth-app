@@ -426,7 +426,7 @@ submitPost &&
     const readAllPosts = async () => {
       const { data, error } = await client.from("users").select();
       if (data) {
-        const box = document.getElementById("container");
+        const box = document.getElementById("container1");
         console.log(box);
         box.innerHTML = data
           .map(
