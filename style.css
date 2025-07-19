@@ -267,7 +267,7 @@ input {
 .navbar-container {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: start !important;
   width: 100%;
   min-height: 90px;
   font-family: "myFont";
