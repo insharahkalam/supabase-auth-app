@@ -421,16 +421,15 @@ submitPost &&
 
 // read all post
 
-
-  try {
-    const readAllPosts = async () => {
-      const { data, error } = await client.from("users").select();
-      if (data) {
-        const box = document.getElementById("container1");
-        console.log(box);
-        box.innerHTML = data
-          .map(
-            ({ id, Title, Description }) => `
+try {
+  const readAllPosts = async () => {
+    const { data, error } = await client.from("users").select();
+    if (data) {
+      const box = document.getElementById("container1");
+      console.log(box);
+      box.innerHTML = data
+        .map(
+          ({ id, Title, Description }) => `
         <div id='${id}' class="card bg-dark border-2 text-white border-danger" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">${Title}</h5>
@@ -439,70 +438,57 @@ submitPost &&
     
   </div>
 </div>`
-          )
-          .join("");
-      } else {
-        console.log(error);
-      }
-    };
-    readAllPosts();
-  } catch (error) {
-    console.log(error);
-  }
-
+        )
+        .join("");
+    } else {
+      console.log(error);
+    }
+  };
+  readAllPosts();
+} catch (error) {
+  console.log(error);
+}
 
 // Read my posts
 // ✅ FIXED readMyPosts FUNCTION ONLY
 
 const readMyPosts = async () => {
-  try {
-    const {
-      data: { user },
-      error: authError,
-    } = await client.auth.getUser();
+  const {
+    data: { user },
+  } = await client.auth.getUser();
 
-    if (authError || !user) throw authError || new Error("User not found");
+  const { data, error } = await client
+    .from("users")
+    .select()
+    .eq("user_id", user.id);
 
-    const { data, error } = await client
-      .from("users")
-      .select()
-      .eq("user_id", user.id);
-
-    if (error) throw error;
-
-    const box = document.getElementById("container1"); // updated to container
-    if (!box) return console.warn("Container not found");
-
+  if (data) {
+    const box = document.getElementById("container1");
     box.innerHTML = data
       .map(
         ({ id, Title, Description }) => `
-      <div id='${id}' class="card bg-dark border-2 text-white border-danger" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">${Title}</h5>
-          <p class="card-text">${Description}</p>
-        </div>
-        <div class="d-flex px-3 pb-2 justify-content-between">
-          <button type="button" onclick="updatePost('${id}','${Title}','${Description}')" class="btn px-3 btn-outline-danger">Edit</button>
-          <button type="button" onclick="deletePost('${id}')" class="btn px-3 btn-outline-danger">Delete</button>
-        </div>
-      </div>`
+            <div id='${id}' class="card bg-dark border-2 text-white border-danger" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">${Title}</h5>
+                <p class="card-text">${Description}</p>
+              </div>
+              <div class="d-flex px-3 pb-2 justify-content-between">
+                <button type="button" onclick="updatePost('${id}','${Title}','${Description}')" class="btn px-3 btn-outline-danger">Edit</button>
+                <button type="button" onclick="deletePost('${id}')" class="btn px-3 btn-outline-danger">Delete</button>
+              </div>
+            </div>`
       )
       .join("");
-  } catch (error) {
-    console.error("readMyPosts error:", error);
-    Swal.fire({
-      icon: "error",
-      title: "Error loading posts",
-      text: error.message || "Something went wrong.",
-    });
+  } else {
+    console.log(error);
   }
 };
 
-  try {
-    readMyPosts();
-  } catch (error) {
-    console.log(error);
-  }
+try {
+  readMyPosts();
+} catch (error) {
+  console.log(error);
+}
 
 // delete post
 
