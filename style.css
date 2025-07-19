@@ -262,7 +262,7 @@ input {
 /* .navbar-collapse{ 
   position: static !important;
   z-index: auto !important;
-}
+} */
 
 .navbar-container {
   display: flex;
@@ -271,7 +271,7 @@ input {
   width: 100%;
   min-height: 90px;
   font-family: "myFont";
-} */
+} 
 
 .profile-section {
   display: flex;
