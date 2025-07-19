@@ -17,7 +17,7 @@
   font-family: "myFont";
 }
 .navbar {
-  height: 90px !important;
+  /* height: 90px !important; */
 }
 .container {
   /* / margin-left: 5px; */
