@@ -264,14 +264,14 @@ input {
   z-index: auto !important;
 } */
 
-.navbar-container {
+/* .navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: start !important;
   width: 100%;
   min-height: 90px;
   font-family: "myFont";
-} 
+}  */
 
 .profile-section {
   display: flex;
@@ -364,3 +364,33 @@ input {
   left: 245px;
 }
 
+
+/* Navbar container ko flexible rakho */
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* "start" mat use karo */
+  width: 100%;
+  font-family: "myFont";
+}
+
+/* Desktop par hi height rakho */
+@media (min-width: 992px) {
+  .navbar-container {
+    min-height: 90px;
+  }
+}
+
+/* Collapse band hone par space bilkul na le */
+.navbar-collapse.collapse {
+  display: none !important;
+}
+
+/* Jab collapse open ho to proper show ho */
+.navbar-collapse.collapse.show {
+  display: flex !important;
+  flex-direction: column; /* Mobile view me vertical list */
+  align-items: flex-start;
+  width: 100%;
+  gap: 10px; /* Thoda spacing optional */
+}
