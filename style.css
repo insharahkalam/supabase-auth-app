@@ -259,7 +259,7 @@ input {
 }
 
 
-.navbar-collapse{ 
+/* .navbar-collapse{ 
   position: static !important;
   z-index: auto !important;
 }
@@ -267,11 +267,11 @@ input {
 .navbar-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
   width: 100%;
   min-height: 90px;
   font-family: "myFont";
-}
+} */
 
 .profile-section {
   display: flex;
@@ -364,14 +364,3 @@ input {
   left: 245px;
 }
 
-/* media query */
-
-@media (max-width: 992px) {
-  .navbar-container {
-    justify-content: flex-start; 
-  }
-
-  .navbar-toggler {
-    margin-left: auto; 
-  }
-}
