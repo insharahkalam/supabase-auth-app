@@ -259,7 +259,7 @@ input {
 }
 
 
-.navbar{ 
+.navbar-collapse{ 
   position: static !important;
   z-index: auto !important;
 }
