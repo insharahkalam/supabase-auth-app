@@ -259,7 +259,11 @@ input {
 }
 
 
-/* Custom styles for better alignment */
+.navbar{ 
+  position: static !important;
+  z-index: auto !important;
+}
+
 .navbar-container {
   display: flex;
   justify-content: space-between;
