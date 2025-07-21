@@ -26,31 +26,19 @@
 .bgBackground{
 height: 100vh;
 width: 100vw;
-    gap: 19.5rem !important;
-  background-image: url('https://t4.ftcdn.net/jpg/06/24/10/31/360_F_624103118_TZnDp6CRAXFruBnjch2rFYPrYRv2qRn1.jpg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+ background-color: black;
 }
 
 .bgBackground1{
 height: 100vh;
 width: 100vw;
-    gap: 19.5rem !important;
-  background-image: url('https://t4.ftcdn.net/jpg/06/24/10/31/360_F_624103118_TZnDp6CRAXFruBnjch2rFYPrYRv2qRn1.jpg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+ background-color: black;
 }
 
 .bgBackground2{
 height: 100vh;
 width: 100vw;
-    gap: 19.5rem !important;
-  background-image: url('https://t4.ftcdn.net/jpg/06/24/10/31/360_F_624103118_TZnDp6CRAXFruBnjch2rFYPrYRv2qRn1.jpg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  background-color: black;
 }
 .container {
   /* / margin-left: 5px; */
