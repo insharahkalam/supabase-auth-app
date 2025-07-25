@@ -19,6 +19,9 @@
   align-items: center;
   font-family: "myFont";
 }
+.borderApp{
+  box-shadow: 0px 0px 15px yellowgreen !important;
+}
 .borderColor{
   box-shadow: 0px 0px 15px yellowgreen !important;
   background-color: transparent;

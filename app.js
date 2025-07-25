@@ -434,7 +434,7 @@ if (window.location.pathname.includes("all-blogs.html")) {
         box.innerHTML = data
           .map(
             ({ id, Title, Description }) => `
-          <div id='${id}' class="card bg-dark border-2 text-white border-danger" style="width: 18rem;">
+          <div id='${id}' class="card bg-transparent border-1 borderApp text-white border-danger" style="width: 18rem;">
     <div class="card-body">
       <h5 class="card-title">${Title}</h5>
      
@@ -471,14 +471,14 @@ const readMyPosts = async () => {
     box.innerHTML = data
       .map(
         ({ id, Title, Description }) => `
-            <div id='${id}' class="card bg-dark border-2 text-white border-danger" style="width: 18rem;">
+            <div id='${id}' class="card bg-transparent border-1 borderApp text-white border-danger" style="width: 18rem;">
               <div class="card-body">
                 <h5 class="card-title">${Title}</h5>
                 <p class="card-text">${Description}</p>
               </div>
               <div class="d-flex gap-3 px-3 pb-2">
-                <button type="button" onclick="updatePost('${id}','${Title}','${Description}')" class="btn px-3 btn-outline-danger">Edit</button>
-                <button type="button" onclick="deletePost('${id}')" class="btn px-3 btn-outline-danger">Delete</button>
+                <button type="button" onclick="updatePost('${id}','${Title}','${Description}')" class="btn px-3 text-white btn-outline-danger">Edit</button>
+                <button type="button" onclick="deletePost('${id}')" class="btn px-3 btn-outline-danger text-white">Delete</button>
               </div>
             </div>`
       )
