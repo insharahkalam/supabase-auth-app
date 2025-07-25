@@ -128,11 +128,14 @@ loginWithGoogle &&
     try {
       localStorage.setItem("googleLoginSuccess", "true");
 
+const redirectTo = window.location.hostname === '127.0.0.1'
+? window.location.origin + '/post.html' : window.location.origin + '/supabase-auth-app'
+
       const { data, error } = await client.auth.signInWithOAuth({
         provider: "google",
         options: {
           redirectTo:
-            "https://insharahkalam.github.io/supabase-auth-app/post.html",
+           redirectTo,
           queryParams: { access_type: "offline", prompt: "consent" },
         },
       });
