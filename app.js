@@ -190,7 +190,6 @@ loginWithGithub &&
 const redirectTo = window.location.hostname === '127.0.0.1'
 ? window.location.origin + '/post.html' : window.location.origin + '/supabase-auth-app/post.html'
 
-
       const { data, error } = await client.auth.signInWithOAuth({
         provider: "github",
         options: {
