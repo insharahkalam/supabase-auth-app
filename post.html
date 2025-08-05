@@ -25,10 +25,10 @@
   <body class="bgBackground">
     <!-- post navbar -->
     <nav class="navbar navbar-expand-lg">
-      <div class="container navbar-container d-flex align-items-start navbarSize" style="font-family: 'myFont';">
+       <div class="container navbar-container d-flex align-items-start navbarSize" style="font-family: 'myFont';">
         <a class="navbar-brand text-white fs-2" href="#">My Post</a>
         <!-- Toggle button for mobile -->
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
 					<span class="navbar-toggler-icon"></span>
 				</button>
         
@@ -54,32 +54,26 @@
                     <p id="profile-email"></p>
                   </div>
                 </div>
-                <button id="logoutBtn" class="logout-btn">Logout</button>
+                <button id="logoutBtn"  class="logout-btn">Logout</button>
               </div>
 						</li>
 					</ul>
-
-
       </div>
     </nav>
     
     <div class="container-fluid my-3">
       <div class="row p-2 gap-4 align-items-center justify-content-center">
         
-        <div class="col-12 col-sm-12 col-md-4">
+        <div class="col-12 col-sm-12 col-md-12">
           <div class="card p-4 border-danger mb-5 borderColor">
 
             <h2 class="text-white text-center my-3" style="font-family: 'myFont';">Create a New Post</h2>
             <form class="p-2">
-              <div class="mb-4">
-                <label for="post-title" class="form-label fs-3 text-white fontStyle"
-                  >Title</label
-                >
+              <div class="mb-4 fontStyle">
+                <label for="post-title" class="form-label fs-3 text-white">Title</label>
                 <input type="text" class="form-control bg-transparent text-white" id="post-title" />
               </div>
-              <label for="postdescrib" class="form-label fs-3 text-white fontStyle"
-                >Description</label
-              >
+              <label for="postdescrib" class="form-label fs-3 text-white fontStyle">Description</label>
               <div class="form-floating fontStyle">
                 <textarea
                   class="form-control bg-transparent text-white"
@@ -99,10 +93,7 @@
             </form>
           </div>
         </div>
-
-    
       </div>
-      
     </div>
 	
     <!-- loader -->

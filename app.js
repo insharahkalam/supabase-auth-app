@@ -7,7 +7,7 @@ const client = createClient(projectUrl, projectKey);
 console.log(createClient);
 console.log(client);
 
-// signup page
+// // signup page
 
 const signupBtn = document.getElementById("signupBtn");
 signupBtn &&
@@ -345,7 +345,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // add post functionality
-
 const submitPost = document.getElementById("submitPost");
 const loaderOverlay = document.getElementById("loader-overlay");
 
@@ -374,7 +373,6 @@ submitPost &&
       });
       return;
     }
-
     showLoader();
     submitPost.disable = true;
 
@@ -397,7 +395,7 @@ submitPost &&
         .select();
 
       if (error) {
-        console.error(error);
+        console.error(error.message);
         Swal.fire({
           icon: "error",
           title: "Post Failed",
@@ -429,148 +427,223 @@ submitPost &&
       submitPost.disable = "false";
     }
   });
-
-// read all post
+// read all posts
 
 if (window.location.pathname.includes("all-blogs.html")) {
+
   try {
     const readAllPosts = async () => {
-      const { data, error } = await client.from("users").select();
+      const { data, error } = await client
+        .from('users')
+        .select()
+      console.log(data);
       if (data) {
-        const box = document.getElementById("container1");
-        console.log(box);
-        box.innerHTML = data
-          .map(
-            ({ id, Title, Description }) => `
-          <div id='${id}' class="card bg-transparent border-1 borderApp text-white border-danger" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title">${Title}</h5>
-     
-      <p class="card-text">${Description}</p>
-      
+        const readPostBox = document.getElementById('readPostBox')
+        console.log(readPostBox);
+        readPostBox.innerHTML = data.map(({ id, Title, Description }) => `
+  <div class="card bg-white border-danger mb-3 container justify-content-center align-items-start" id='${id}'" style="width: 40rem; height:auto;">
+  <div class="card-body py-3 px-0">
+  <div class="user-profile">
+                  <img
+                    id="profile-avatar"
+                    src="https://lh3.googleusercontent.com/a/ACg8ocLYkBCY1aScXhz6IEjyOIyaYJF-o1p-JDvFsb6bRLKE0hiYpXY=s96-c"
+                    alt="Profile Picture"
+                    class="avatar"
+                  />
+                  <div class="user-details">
+                    <h3 id="profile-name" class="text-black" style="font-family:'myFont';">Insharah</h3>
+                    <p id="profile-email" class="text-black" style="font-family:'myFont';">insharahdev47@gmail.com</p>
+                  </div>
+                </div>
+                 <hr/>
+    <h5 class="card-title " style="font-family:'myFont'; font-size: 25px;">${Title}</h5>
+    <p class="card-text" style="font-family:'Libertinus Serif';">${Description}</p>  
+    <hr/>
+    <div class="d-flex " style="font-family:'myFont';">
+   <button class="px-3 py-1 ms-3 bg-transparent border-0 rounded-2 hover"><i class="fa-solid fa-thumbs-up pe-2" style="color: #000000ff;"></i> Like </button>
+   <button class="px-3 py-1 ms-3 bg-transparent border-0 rounded-2 hover"><i class="fa-solid fa-comment fa-flip-horizontal ps-2" style="color: #000000ff;"></i> Comment </button>
+   <button class="px-3 py-1 ms-3 bg-transparent border-0 rounded-2 hover"><i class="fa-solid fa-share pe-2" style="color: #000000ff;"></i> share </button>
+   <button class="px-3 py-1 ms-3 bg-transparent border-0 rounded-2 hover"><i class="fa-solid fa-bookmark pe-2" style="color: #000000ff;"></i> Save </button>
     </div>
-  </div>`
-          )
+  </div>
+</div>`)
           .join("");
-      } else {
-        console.log(error);
       }
-    };
+    }
     readAllPosts();
-  } catch (error) {
+  }
+  catch (error) {
     console.log(error);
   }
 }
-
-// Read my posts
+// read my posts 
 
 const readMyPosts = async () => {
-  const {
-    data: { user },
-  } = await client.auth.getUser();
+  const { data: { user } } = await client.auth.getUser();
 
   const { data, error } = await client
-    .from("users")
+    .from('users')
     .select()
-    .eq("user_id", user.id);
+    .eq('user_id', user.id);
 
   if (data) {
-    const box = document.getElementById("container1");
-    box.innerHTML = data
-      .map(
-        ({ id, Title, Description }) => `
-            <div id='${id}' class="card bg-transparent border-1 borderApp text-white border-danger" style="width: 18rem;">
-              <div class="card-body">
-                <h5 class="card-title">${Title}</h5>
-                <p class="card-text">${Description}</p>
-              </div>
-              <div class="d-flex gap-3 px-3 pb-2">
-                <button type="button" onclick="updatePost('${id}','${Title}','${Description}')" class="btn px-3 text-white btn-outline-danger">Edit</button>
-                <button type="button" onclick="deletePost('${id}')" class="btn px-3 btn-outline-danger text-white">Delete</button>
-              </div>
-            </div>`
-      )
-      .join("");
+    const readMyPostBox = document.getElementById('readMyPostBox');
+
+    readMyPostBox.innerHTML = data.map(({ id, Title, Description }) => {
+      // Correctly encode JSON and escape it for HTML
+      const postData = JSON.stringify({ Title, Description })
+        .replace(/"/g, "&quot;"); // Escape quotes
+
+      return `
+<div class="card bg-white border-danger mb-3 container justify-content-center align-items-start" style="width: 40rem; height:auto; overflow-X:hidden;">
+  <div class="card-body py-3 px-0">
+    <div class="user-profile">
+      <img
+        src="https://lh3.googleusercontent.com/a/ACg8ocLYkBCY1aScXhz6IEjyOIyaYJF-o1p-JDvFsb6bRLKE0hiYpXY=s96-c"
+        alt="Profile Picture"
+        class="avatar"
+      />
+      <div class="user-details">
+        <h3 class="text-black" style="font-family:'myFont';">Insharah</h3>
+        <p class="text-black" style="font-family:'myFont';">insharahdev47@gmail.com</p>
+      </div>
+    </div>
+
+    <h5 class="card-title mt-4" style="font-family:'myFont'; font-size: 25px;">${Title}</h5>
+    <p class="card-text" style="font-family:'Libertinus Serif';">${Description}</p>
+  </div>
+  <hr style="width:490px; border: 1px solid black; margin-left: 12px; margin-top:2px; margin-bottom:4px;">
+
+  <div class="d-flex" style="font-family:'myFont';">
+    <button class="px-3 py-1 ms-3 bg-transparent border-0 rounded-2 hover"><i class="fa-solid fa-thumbs-up pe-2"></i> Like</button>
+    <button class="px-3 py-1 ms-3 bg-transparent border-0 rounded-2 hover"><i class="fa-solid fa-comment fa-flip-horizontal ps-2"></i> Comment</button>
+    <button class="px-3 py-1 ms-3 bg-transparent border-0 rounded-2 hover"><i class="fa-solid fa-share pe-2"></i> Share</button>
+    <button class="px-3 py-1 ms-3 bg-transparent border-0 rounded-2 hover"><i class="fa-solid fa-bookmark pe-2"></i> Save</button>
+  </div>
+
+  <hr style="width:490px; border: 1px solid black; margin-left: 12px; margin-top:8px; margin-bottom:4px;">
+  <div class="d-flex justify-content-center pb-3 mt-2 gap-2">
+ <button 
+          type="button"
+          class="btn ms-2 btn-outline-danger edit-post-btn"
+          data-id="${id}"
+          data-post="${postData}"
+        >
+          Edit post
+        </button>
+    <button class="btn btn-outline-danger delete-post-btn" data-id="${id}">Delete post</button>
+  </div>
+</div>`;
+    }).join("");
+
+    // edit button listeners
+    document.querySelectorAll('.edit-post-btn').forEach((button) => {
+      button.addEventListener('click', () => {
+        const id = button.dataset.id;
+        const raw = button.dataset.post.replace(/&quot;/g, '"');
+        const post = JSON.parse(raw);
+
+        editPost(id, post.Title, post.Description);
+      });
+    });
+
+    // 👇 Delete button listeners
+    document.querySelectorAll('.delete-post-btn').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const id = e.currentTarget.dataset.id;
+        deletePost(id);
+      });
+    });
   } else {
     console.log(error);
   }
 };
-
 if (window.location.pathname.includes('my-blogs.html')) {
-  try {
-    readMyPosts();
-  } catch (error) {
-    console.log(error);
-  }
+  readMyPosts()
 }
 
-// delete post
+// delete posts
 
 async function deletePost(postId) {
-  const swalWithBootstrapButtons = swal.mixin({
+  const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
       confirmButton: "btn btn-success",
-      cancelButton: "btn btn-danger",
+      cancelButton: "btn btn-danger"
     },
-    buttonsStyling: false,
+    buttonsStyling: false
   });
-  swalWithBootstrapButtons
-    .fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "No, cancel!",
-      reverseButtons: true,
-    })
-    .then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          showLoader();
-          const response = await client.from("users").delete().eq("id", postId);
-          if (response) {
-            hideLoader();
-            // alert("post has been deleted");
-            console.log(response);
-            readMyPosts();
-          } else {
-            console.log(error);
-          }
-        } catch (error) {
-          console.log(error);
-        } finally {
-          hideLoader();
+  swalWithBootstrapButtons.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No, cancel!",
+    reverseButtons: true
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        const response = await client
+          .from('users')
+          .delete()
+          .eq('id', postId)
+        if (response) {
+          console.log(response);
+          readMyPosts();
         }
-        swalWithBootstrapButtons.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
-        });
-      } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel
-      ) {
-        swalWithBootstrapButtons.fire({
-          title: "Cancelled",
-          text: "Your imaginary file is safe :)",
-          icon: "error",
-        });
+        else {
+          console.log(error);
+        }
       }
-    });
+      catch (error) {
+        console.log(error);
+      }
+      swalWithBootstrapButtons.fire({
+        title: "Deleted!",
+        text: "Your file has been deleted.",
+        icon: "success"
+      });
+    } else if (
+      /* Read more about handling dismissals below */
+      result.dismiss === Swal.DismissReason.cancel
+    ) {
+      swalWithBootstrapButtons.fire({
+        title: "Cancelled",
+        icon: "error"
+      });
+    }
+  });
 }
 
-// update post
+// edit post
 
-async function updatePost(postId, posttitle, postdescribtion) {
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;") // escape "
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+async function editPost(postid, posttitle, postdescribtion) {
+  console.log(postid, posttitle, postdescribtion);
+  const title = escapeHtml(decodeURIComponent(posttitle));
+  const description = escapeHtml(decodeURIComponent(postdescribtion));
+
   const { value: formValues } = await Swal.fire({
-    title: "Update post",
+    title: "Update Post",
     html: `
-    <label > post title
-	<input id="swal-input1" class="swal1-input"  value = '${posttitle}' ></label>
-    <label > post description
-	<input id="swal-input2" class="swal2-input" style="margin: 0 !important;"   value = '${postdescribtion}' ></label>
-  `,
+     
+<div class="d-flex mt-3 flex-column flex-md-row align-items-start align-items-md-center gap-2">
+  <label style="min-width: 100px;"><strong>Title</strong></label>
+  <input id="swal-input1" class="swal2-input mt-0 " value="${title}">
+</div>
+
+<div class="d-flex mt-3 flex-column flex-md-row align-items-start align-items-md-center  gap-2">
+  <label class="ps-3" style="min-width: 100px;"><strong >Description</strong></label>
+  <input id="swal-input2" class="swal2-input mt-0" value="${description}">
+</div>
+    `,
     focusConfirm: false,
     preConfirm: () => {
       return [
@@ -583,19 +656,20 @@ async function updatePost(postId, posttitle, postdescribtion) {
   try {
     if (formValues) {
       showLoader();
-      const [updatedTitle, updatedDescription] = formValues;
+      const [newTitle, newDescription] = formValues;
+
       const { error } = await client
         .from("users")
-        .update({ Title: updatedTitle, Description: updatedDescription })
-        .eq("id", postId);
+        .update({ Title: newTitle, Description: newDescription })
+        .eq("id", postid);
+
       if (error) {
         console.log(error);
       } else {
         hideLoader();
         Swal.fire({
+          title: "Your post has been updated.",
           icon: "success",
-          title: "your post has been updated",
-          confirmButtonColor: "#125b9a",
         });
         readMyPosts();
       }
@@ -606,3 +680,5 @@ async function updatePost(postId, posttitle, postdescribtion) {
     hideLoader();
   }
 }
+
+
